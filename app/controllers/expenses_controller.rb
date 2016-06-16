@@ -7,6 +7,8 @@ class ExpensesController < ApplicationController
       @expenses = Expense.where("lower(concept) LIKE ? AND lower(category_id) LIKE ?", "%#{params[:concept]}%", params[:category_id])
     elsif params[:concept] != "" && params[:category_id] == ""
       @expenses = Expense.where("lower(concept) LIKE ?", "%#{params[:concept]}%")
+    elsif params[:category_id] != "" && params[:concept] == ""
+      @expenses = Expense.where("lower(category_id) LIKE ?", params[:category_id])
     else
       @expenses = Expense.order("date DESC")
     end
