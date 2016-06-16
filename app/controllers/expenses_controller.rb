@@ -1,10 +1,12 @@
 class ExpensesController < ApplicationController
   def index
 
-    if params[:concept] != ""
+    if params[:concept] != "" && params[:category_id] != ""
       # Este código hace una busqueda no exacta
       # En este caso se quiere busar dos condiciones
       @expenses = Expense.where("lower(concept) LIKE ? AND lower(category_id) LIKE ?", "%#{params[:concept]}%", params[:category_id])
+    elsif params[:concept] != "" && params[:category_id] == ""
+      @expenses = Expense.where("lower(concept) LIKE ?", "%#{params[:concept]}%")
     else
       @expenses = Expense.order("date DESC")
     end
